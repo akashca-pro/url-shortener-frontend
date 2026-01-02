@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -20,31 +19,19 @@ export default defineConfig({
     },
   },
   build: {
-    // Target modern browsers for smaller bundles
     target: 'es2020',
-    // Enable minification
     minify: 'esbuild',
-    // Generate source maps for debugging in production
     sourcemap: false,
-    // Warn if chunk size exceeds 500kb
     chunkSizeWarningLimit: 500,
-    // Code splitting configuration
     rollupOptions: {
       output: {
-        // Manual chunk splitting for better caching
         manualChunks: {
-          // React core libraries
           'vendor-react': ['react', 'react-dom'],
-          // Redux and state management
           'vendor-redux': ['@reduxjs/toolkit', 'react-redux', 'redux-persist'],
-          // Router
           'vendor-router': ['react-router-dom'],
-          // UI utilities
           'vendor-ui': ['framer-motion', 'lucide-react', 'sonner'],
-          // Form handling
           'vendor-forms': ['react-hook-form', '@hookform/resolvers', 'zod'],
         },
-        // Asset file naming for cache busting
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name?.split('.') || [];
           const ext = info[info.length - 1];
@@ -56,18 +43,13 @@ export default defineConfig({
           }
           return `assets/[name]-[hash][extname]`;
         },
-        // Chunk file naming
         chunkFileNames: 'assets/js/[name]-[hash].js',
-        // Entry file naming
         entryFileNames: 'assets/js/[name]-[hash].js',
       },
     },
-    // CSS code splitting
     cssCodeSplit: true,
-    // Inline assets smaller than 4kb
     assetsInlineLimit: 4096,
   },
-  // Optimize dependencies
   optimizeDeps: {
     include: [
       'react',
@@ -78,4 +60,3 @@ export default defineConfig({
     ],
   },
 });
-
