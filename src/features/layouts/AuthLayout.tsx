@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Link as LinkIcon } from 'lucide-react';
 
 export const AuthLayout = () => {
