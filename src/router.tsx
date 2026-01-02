@@ -6,14 +6,17 @@ import { PublicOnlyRoute } from '@/features/auth/components/PublicOnlyRoute';
 import { LoginPage } from '@/features/auth/login/LoginPage';
 import { SignupPage } from '@/features/auth/signup/SignupPage';
 import { DashboardPage } from '@/features/dashboard/pages/DashboardPage';
+import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Navigate to="/dashboard" replace />,
+    errorElement: <ErrorBoundary />,
   },
   {
       element: <PublicOnlyRoute />,
+      errorElement: <ErrorBoundary />,
       children: [
           {
               element: <AuthLayout />,
@@ -32,6 +35,7 @@ export const router = createBrowserRouter([
   },
   {
     element: <ProtectedRoute />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         element: <DashboardLayout />,
@@ -46,6 +50,7 @@ export const router = createBrowserRouter([
   },
   {
       path: '*',
-      element: <Navigate to="/dashboard" replace />
+      element: <ErrorBoundary />,
   }
 ]);
+
