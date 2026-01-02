@@ -4,6 +4,7 @@ import { UrlForm } from '../components/UrlForm';
 import { UrlCard } from '../components/UrlCard';
 import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 export const DashboardPage = () => {
   const [urls, setUrls] = useState<UrlItem[]>([]);
@@ -19,8 +20,8 @@ export const DashboardPage = () => {
       if (response.success) {
         setUrls(response.data.urls);
       }
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to fetch URLs');
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error, 'Failed to fetch URLs'));
     } finally {
       setIsLoading(false);
     }

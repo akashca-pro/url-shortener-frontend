@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { SignupSchema, SignupCredentials, signup } from '../api/auth';
+import { getErrorMessage } from '@/lib/errorUtils';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { loginSuccess } from '@/store/slices/auth.slice';
 import { Button } from '@/components/shared/Button';
@@ -31,8 +32,8 @@ export const SignupPage = () => {
         toast.success('Account created successfully');
         navigate('/dashboard');
       }
-    } catch (error: any) {
-      toast.error(error.message || 'Signup failed');
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error, 'Signup failed'));
     } finally {
       setIsLoading(false);
     }

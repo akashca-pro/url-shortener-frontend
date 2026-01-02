@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/shared/Card';
 import { Button } from '@/components/shared/Button';
 import { Copy, Trash2, ExternalLink, BarChart2, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
+import { getErrorMessage } from '@/lib/errorUtils';
 
 interface UrlCardProps {
   url: UrlItem;
@@ -26,8 +27,8 @@ export const UrlCard = ({ url, onDelete }: UrlCardProps) => {
       await deleteUrl(url.id);
       onDelete(url.id);
       toast.success('URL deleted successfully');
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to delete URL');
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error, 'Failed to delete URL'));
     } finally {
       setIsDeleting(false);
     }
@@ -68,12 +69,15 @@ export const UrlCard = ({ url, onDelete }: UrlCardProps) => {
           </div>
 
           <div className="flex gap-2">
-            <Button size="sm" variant="outline" asChild>
-                <a href={url.originalUrl} target="_blank" rel="noreferrer">
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    Visit
-                </a>
-            </Button>
+            <a 
+              href={url.originalUrl} 
+              target="_blank" 
+              rel="noreferrer"
+              className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring h-9 px-3 text-xs border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Visit
+            </a>
             <Button 
                 size="sm" 
                 variant="destructive" 

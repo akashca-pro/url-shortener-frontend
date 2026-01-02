@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { CreateUrlSchema, CreateUrlInput, createShortUrl, UrlItem } from '../api/urls';
+import { getErrorMessage } from '@/lib/errorUtils';
 import { Button } from '@/components/shared/Button';
 import { Input } from '@/components/shared/Input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/shared/Card';
@@ -33,8 +34,8 @@ export const UrlForm = ({ onUrlCreated }: UrlFormProps) => {
         reset();
         toast.success('URL shortened successfully');
       }
-    } catch (error: any) {
-      toast.error(error.message || 'Failed to shorten URL');
+    } catch (error: unknown) {
+      toast.error(getErrorMessage(error, 'Failed to shorten URL'));
     } finally {
       setIsLoading(false);
     }
